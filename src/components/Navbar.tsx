@@ -53,25 +53,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isOnLightSection
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isOnLightSection
             ? 'bg-white/85 backdrop-blur-md border-b border-black/[0.06] shadow-xs pt-3 sm:pt-3.5 pb-2.5 sm:pb-3'
             : isScrolled
-            ? 'bg-[#100f0e]/80 backdrop-blur-md border-b border-white/10 shadow-lg pt-3 sm:pt-3.5 pb-2.5 sm:pb-3'
-            : 'bg-transparent pt-4 sm:pt-5 pb-3'
-        }`}
+              ? 'bg-[#100f0e]/80 backdrop-blur-md border-b border-white/10 shadow-lg pt-3 sm:pt-3.5 pb-2.5 sm:pb-3'
+              : 'bg-transparent pt-4 sm:pt-5 pb-3'
+          }`}
       >
         <div className="w-full px-8 sm:px-12 lg:px-16 xl:px-20 flex items-center justify-between relative">
-          {/* Official Brand Logo: M3K INTERIORS (Pixel-perfect matching official brand identity) */}
-          <a href="#hero" className="flex items-center select-none group z-20 py-1" aria-label="M3K Interiors Home">
+          {/* Brand Wordmark: Official M3K INTERIORS Logo */}
+          <a href="#hero" className="flex items-center select-none group z-20">
             <img
-              src={isOnLightSection ? "/assets/m3k_logo_black.png" : "/assets/m3k_logo_white.png"}
-              alt="M3K Interiors"
-              className={`h-7 sm:h-8 md:h-[34px] w-auto object-contain transition-all duration-300 ${
-                isOnLightSection
-                  ? 'opacity-95 hover:opacity-100'
-                  : 'drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)] hover:drop-shadow-[0_2px_10px_rgba(255,255,255,0.4)]'
-              }`}
+              src={isOnLightSection ? '/assets/m3k_logo_black.png' : '/assets/m3k_logo_white.png'}
+              alt="M3K INTERIORS"
+              className="h-6 sm:h-7 md:h-7.5 w-auto object-contain transition-opacity duration-300 drop-shadow-xs"
             />
           </a>
 
@@ -85,12 +80,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
                   href={link.href}
                   onClick={() => setActiveTab(link.label)}
                   className={`relative py-1 text-[13.5px] sm:text-[14px] tracking-[0.14em] uppercase transition-all duration-300 font-sub ${isActive
-                      ? isOnLightSection
-                        ? 'text-black font-bold'
-                        : 'text-white font-semibold drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]'
-                      : isOnLightSection
-                        ? 'text-black/85 hover:text-black font-semibold'
-                        : 'text-white/95 hover:text-white font-medium drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]'
+                    ? isOnLightSection
+                      ? 'text-black font-bold'
+                      : 'text-white font-semibold drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]'
+                    : isOnLightSection
+                      ? 'text-black/85 hover:text-black font-semibold'
+                      : 'text-white/95 hover:text-white font-medium drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]'
                     }`}
                 >
                   <span>{link.label}</span>
@@ -98,8 +93,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
                     <motion.div
                       layoutId="navUnderline"
                       className={`absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-7 h-[2px] rounded-full transition-colors duration-300 ${isOnLightSection
-                          ? 'bg-black'
-                          : 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.9)]'
+                        ? 'bg-black'
+                        : 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.9)]'
                         }`}
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
@@ -112,8 +107,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
           {/* Right Action Icons: Search + Divider + Hamburger Menu (High-visibility) */}
           <div
             className={`flex items-center gap-4 sm:gap-5 z-20 transition-colors duration-300 ${isOnLightSection
-                ? 'text-black'
-                : 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]'
+              ? 'text-black'
+              : 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]'
               }`}
           >
             {/* Search Icon */}
@@ -169,8 +164,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
                   type="text"
                   placeholder="Search residences, styles, spaces..."
                   className={`w-full rounded-full px-5 py-2.5 text-xs focus:outline-none shadow-xl transition-all ${isOnLightSection
-                      ? 'bg-white text-black placeholder-black/45 border border-black/20 focus:border-[#b8864e]'
-                      : 'bg-[#181716] text-white placeholder-white/40 border border-white/20 focus:border-[#d4a373]'
+                    ? 'bg-white text-black placeholder-black/45 border border-black/20 focus:border-[#b8864e]'
+                    : 'bg-[#181716] text-white placeholder-white/40 border border-white/20 focus:border-[#d4a373]'
                     }`}
                   autoFocus
                 />
@@ -192,13 +187,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
           >
             <div>
               <div className="flex items-center justify-between border-b border-white/10 pb-6 mb-8">
-                <a href="#hero" onClick={() => setMobileMenuOpen(false)} className="flex items-center">
-                  <img
-                    src="/assets/m3k_logo_white.png"
-                    alt="M3K Interiors"
-                    className="h-7 w-auto object-contain"
-                  />
-                </a>
+                <img
+                  src="/assets/m3k_logo_white.png"
+                  alt="M3K INTERIORS"
+                  className="h-6 sm:h-7 w-auto object-contain"
+                />
                 <button
                   onClick={() => setMobileMenuOpen(false)}
                   className="p-2 text-white/70 hover:text-white"
