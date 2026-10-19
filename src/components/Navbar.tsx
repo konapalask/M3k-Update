@@ -62,24 +62,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
         }`}
       >
         <div className="w-full px-8 sm:px-12 lg:px-16 xl:px-20 flex items-center justify-between relative">
-          {/* Brand Wordmark: M3K INTERIORS (High-contrast, prominent, brighter) */}
-          <a href="#hero" className="flex flex-col select-none group z-20">
-            <span
-              className={`font-brand tracking-[0.18em] text-xl sm:text-[24px] font-semibold uppercase leading-none transition-all duration-300 ${isOnLightSection
-                  ? 'text-black'
-                  : 'text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)]'
-                }`}
-            >
-              M3K
-            </span>
-            <span
-              className={`font-sub text-[8.5px] sm:text-[9px] tracking-[0.45em] uppercase mt-1 pl-0.5 font-medium transition-colors duration-300 ${isOnLightSection
-                  ? 'text-[#a36b2b]'
-                  : 'text-[#e5b382] drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]'
-                }`}
-            >
-              INTERIORS
-            </span>
+          {/* Official Brand Logo: M3K INTERIORS (Pixel-perfect matching official brand identity) */}
+          <a href="#hero" className="flex items-center select-none group z-20 py-1" aria-label="M3K Interiors Home">
+            <img
+              src={isOnLightSection ? "/assets/m3k_logo_black.png" : "/assets/m3k_logo_white.png"}
+              alt="M3K Interiors"
+              className={`h-7 sm:h-8 md:h-[34px] w-auto object-contain transition-all duration-300 ${
+                isOnLightSection
+                  ? 'opacity-95 hover:opacity-100'
+                  : 'drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)] hover:drop-shadow-[0_2px_10px_rgba(255,255,255,0.4)]'
+              }`}
+            />
           </a>
 
           {/* Exact Dead-Center Navigation Links (Bright, bold, high-contrast, standout) */}
@@ -199,14 +192,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
           >
             <div>
               <div className="flex items-center justify-between border-b border-white/10 pb-6 mb-8">
-                <div className="flex flex-col">
-                  <span className="font-serif tracking-[0.28em] text-lg text-white">
-                    M 3 K
-                  </span>
-                  <span className="text-[8px] tracking-[0.4em] text-[#d4a373]">
-                    INTERIORS
-                  </span>
-                </div>
+                <a href="#hero" onClick={() => setMobileMenuOpen(false)} className="flex items-center">
+                  <img
+                    src="/assets/m3k_logo_white.png"
+                    alt="M3K Interiors"
+                    className="h-7 w-auto object-contain"
+                  />
+                </a>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
                   className="p-2 text-white/70 hover:text-white"
