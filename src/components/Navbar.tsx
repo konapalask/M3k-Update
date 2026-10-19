@@ -12,9 +12,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [isOnLightSection, setIsOnLightSection] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
+      setIsScrolled(window.scrollY > 25)
+
       const sections = document.querySelectorAll<HTMLElement>('[data-theme]')
       let currentTheme = 'dark'
 
@@ -50,36 +53,36 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isOnLightSection
-            ? 'pt-3.5 sm:pt-4.5 pb-2.5 sm:pb-3'
-            : 'pt-6 sm:pt-8 pb-4'
+            ? 'bg-white/85 backdrop-blur-md border-b border-black/[0.06] shadow-xs pt-3 sm:pt-3.5 pb-2.5 sm:pb-3'
+            : isScrolled
+            ? 'bg-[#100f0e]/80 backdrop-blur-md border-b border-white/10 shadow-lg pt-3 sm:pt-3.5 pb-2.5 sm:pb-3'
+            : 'bg-transparent pt-4 sm:pt-5 pb-3'
         }`}
       >
         <div className="w-full px-8 sm:px-12 lg:px-16 xl:px-20 flex items-center justify-between relative">
-          {/* Brand Wordmark: M3K INTERIORS (Adapts to black on white background, original on dark background) */}
+          {/* Brand Wordmark: M3K INTERIORS (High-contrast, prominent, brighter) */}
           <a href="#hero" className="flex flex-col select-none group z-20">
             <span
-              className={`font-brand uppercase leading-none transition-all duration-300 ${
-                isOnLightSection
-                  ? 'text-black text-xl sm:text-[24px] font-semibold tracking-[0.18em]'
-                  : 'text-white text-xl sm:text-[23px] font-medium tracking-[0.16em]'
-              }`}
+              className={`font-brand tracking-[0.18em] text-xl sm:text-[24px] font-semibold uppercase leading-none transition-all duration-300 ${isOnLightSection
+                  ? 'text-black'
+                  : 'text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)]'
+                }`}
             >
               M3K
             </span>
             <span
-              className={`font-sub uppercase mt-1 pl-0.5 transition-colors duration-300 ${
-                isOnLightSection
-                  ? 'text-[#a36b2b] text-[8.5px] sm:text-[9px] tracking-[0.45em] font-medium'
-                  : 'text-[#d4a373] text-[8px] sm:text-[8.5px] tracking-[0.42em] font-normal'
-              }`}
+              className={`font-sub text-[8.5px] sm:text-[9px] tracking-[0.45em] uppercase mt-1 pl-0.5 font-medium transition-colors duration-300 ${isOnLightSection
+                  ? 'text-[#a36b2b]'
+                  : 'text-[#e5b382] drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]'
+                }`}
             >
               INTERIORS
             </span>
           </a>
 
-          {/* Exact Dead-Center Navigation Links */}
+          {/* Exact Dead-Center Navigation Links (Bright, bold, high-contrast, standout) */}
           <nav className="hidden md:flex items-center gap-8 lg:gap-11 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10 pointer-events-auto">
             {navLinks.map((link) => {
               const isActive = activeTab === link.label
@@ -88,29 +91,23 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
                   key={link.label}
                   href={link.href}
                   onClick={() => setActiveTab(link.label)}
-                  className={`relative py-1 uppercase transition-all duration-300 font-sub ${
-                    isOnLightSection
-                      ? `text-[13.5px] sm:text-[14px] tracking-[0.14em] ${
-                          isActive
-                            ? 'text-black font-bold'
-                            : 'text-black/85 hover:text-black font-semibold'
-                        }`
-                      : `text-[13px] tracking-[0.12em] ${
-                          isActive
-                            ? 'text-white font-medium'
-                            : 'text-white/75 hover:text-white font-normal'
-                        }`
-                  }`}
+                  className={`relative py-1 text-[13.5px] sm:text-[14px] tracking-[0.14em] uppercase transition-all duration-300 font-sub ${isActive
+                      ? isOnLightSection
+                        ? 'text-black font-bold'
+                        : 'text-white font-semibold drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]'
+                      : isOnLightSection
+                        ? 'text-black/85 hover:text-black font-semibold'
+                        : 'text-white/95 hover:text-white font-medium drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]'
+                    }`}
                 >
                   <span>{link.label}</span>
                   {isActive && (
                     <motion.div
                       layoutId="navUnderline"
-                      className={`absolute -bottom-1 left-1/2 -translate-x-1/2 transition-colors duration-300 ${
-                        isOnLightSection
-                          ? 'w-7 h-[2px] rounded-full bg-black'
-                          : 'w-6 h-[1.5px] rounded-full bg-white'
-                      }`}
+                      className={`absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-7 h-[2px] rounded-full transition-colors duration-300 ${isOnLightSection
+                          ? 'bg-black'
+                          : 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.9)]'
+                        }`}
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -119,52 +116,47 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
             })}
           </nav>
 
-          {/* Right Action Icons: Search + Divider + Hamburger Menu */}
+          {/* Right Action Icons: Search + Divider + Hamburger Menu (High-visibility) */}
           <div
-            className={`flex items-center gap-4 sm:gap-5 z-20 transition-colors duration-300 ${
-              isOnLightSection ? 'text-black' : 'text-white/90'
-            }`}
+            className={`flex items-center gap-4 sm:gap-5 z-20 transition-colors duration-300 ${isOnLightSection
+                ? 'text-black'
+                : 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]'
+              }`}
           >
             {/* Search Icon */}
             <button
               onClick={() => setSearchOpen(!searchOpen)}
-              className={`p-1.5 transition-colors cursor-pointer ${
-                isOnLightSection ? 'hover:text-black' : 'hover:text-white'
-              }`}
+              className={`p-1.5 transition-colors cursor-pointer ${isOnLightSection ? 'hover:text-black' : 'hover:text-white'
+                }`}
               aria-label="Search site"
             >
-              <Search size={19} strokeWidth={isOnLightSection ? 2 : 1.75} />
+              <Search size={19} strokeWidth={2} />
             </button>
 
             {/* Fine Vertical Hairline Divider */}
             <div
-              className={`h-4 w-[1px] hidden sm:block transition-colors duration-300 ${
-                isOnLightSection ? 'bg-black/30' : 'bg-white/25'
-              }`}
+              className={`h-4 w-[1px] hidden sm:block transition-colors duration-300 ${isOnLightSection ? 'bg-black/30' : 'bg-white/40'
+                }`}
             />
 
             {/* Hamburger Menu Icon */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`p-1.5 transition-colors cursor-pointer flex flex-col justify-center items-center gap-1.5 w-7 h-7 ${
-                isOnLightSection ? 'hover:text-black' : 'hover:text-white'
-              }`}
+              className={`p-1.5 transition-colors cursor-pointer flex flex-col justify-center items-center gap-1.5 w-7 h-7 ${isOnLightSection ? 'hover:text-black' : 'hover:text-white'
+                }`}
               aria-label="Open menu"
             >
               <span
-                className={`w-5 h-[1.5px] block transition-colors duration-300 ${
-                  isOnLightSection ? 'bg-black' : 'bg-white'
-                }`}
+                className={`w-5 h-[1.5px] block transition-colors duration-300 ${isOnLightSection ? 'bg-black' : 'bg-white'
+                  }`}
               />
               <span
-                className={`w-5 h-[1.5px] block transition-colors duration-300 ${
-                  isOnLightSection ? 'bg-black' : 'bg-white'
-                }`}
+                className={`w-5 h-[1.5px] block transition-colors duration-300 ${isOnLightSection ? 'bg-black' : 'bg-white'
+                  }`}
               />
               <span
-                className={`w-5 h-[1.5px] block transition-colors duration-300 ${
-                  isOnLightSection ? 'bg-black' : 'bg-white'
-                }`}
+                className={`w-5 h-[1.5px] block transition-colors duration-300 ${isOnLightSection ? 'bg-black' : 'bg-white'
+                  }`}
               />
             </button>
           </div>
@@ -183,11 +175,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
                 <input
                   type="text"
                   placeholder="Search residences, styles, spaces..."
-                  className={`w-full rounded-full px-5 py-2.5 text-xs focus:outline-none shadow-xl transition-all ${
-                    isOnLightSection
+                  className={`w-full rounded-full px-5 py-2.5 text-xs focus:outline-none shadow-xl transition-all ${isOnLightSection
                       ? 'bg-white text-black placeholder-black/45 border border-black/20 focus:border-[#b8864e]'
                       : 'bg-[#181716] text-white placeholder-white/40 border border-white/20 focus:border-[#d4a373]'
-                  }`}
+                    }`}
                   autoFocus
                 />
               </div>
