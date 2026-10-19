@@ -53,33 +53,33 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent ${
           isOnLightSection
             ? 'pt-3.5 sm:pt-4.5 pb-2.5 sm:pb-3'
-            : 'pt-4 sm:pt-5 pb-3'
+            : 'pt-6 sm:pt-8 pb-4'
         }`}
       >
         <div className="w-full px-8 sm:px-12 lg:px-16 xl:px-20 flex items-center justify-between relative">
-          {/* Brand Wordmark: M3K INTERIORS (High-contrast, prominent, brighter) */}
+          {/* Brand Wordmark: M3K INTERIORS (Adapts to black on white background, original on dark background) */}
           <a href="#hero" className="flex flex-col select-none group z-20">
             <span
-              className={`font-brand tracking-[0.18em] text-xl sm:text-[24px] font-semibold uppercase leading-none transition-all duration-300 ${
+              className={`font-brand uppercase leading-none transition-all duration-300 ${
                 isOnLightSection
-                  ? 'text-black'
-                  : 'text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)]'
+                  ? 'text-black text-xl sm:text-[24px] font-semibold tracking-[0.18em]'
+                  : 'text-white text-xl sm:text-[23px] font-medium tracking-[0.16em]'
               }`}
             >
               M3K
             </span>
             <span
-              className={`font-sub text-[8.5px] sm:text-[9px] tracking-[0.45em] uppercase mt-1 pl-0.5 font-medium transition-colors duration-300 ${
+              className={`font-sub uppercase mt-1 pl-0.5 transition-colors duration-300 ${
                 isOnLightSection
-                  ? 'text-[#a36b2b]'
-                  : 'text-[#e5b382] drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]'
+                  ? 'text-[#a36b2b] text-[8.5px] sm:text-[9px] tracking-[0.45em] font-medium'
+                  : 'text-[#d4a373] text-[8px] sm:text-[8.5px] tracking-[0.42em] font-normal'
               }`}
             >
               INTERIORS
             </span>
           </a>
 
-          {/* Exact Dead-Center Navigation Links (Bright, bold, high-contrast, standout) */}
+          {/* Exact Dead-Center Navigation Links */}
           <nav className="hidden md:flex items-center gap-8 lg:gap-11 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10 pointer-events-auto">
             {navLinks.map((link) => {
               const isActive = activeTab === link.label
@@ -88,24 +88,28 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
                   key={link.label}
                   href={link.href}
                   onClick={() => setActiveTab(link.label)}
-                  className={`relative py-1 text-[13.5px] sm:text-[14px] tracking-[0.14em] uppercase transition-all duration-300 font-sub ${
-                    isActive
-                      ? isOnLightSection
-                        ? 'text-black font-bold'
-                        : 'text-white font-semibold drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]'
-                      : isOnLightSection
-                      ? 'text-black/85 hover:text-black font-semibold'
-                      : 'text-white/95 hover:text-white font-medium drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]'
+                  className={`relative py-1 uppercase transition-all duration-300 font-sub ${
+                    isOnLightSection
+                      ? `text-[13.5px] sm:text-[14px] tracking-[0.14em] ${
+                          isActive
+                            ? 'text-black font-bold'
+                            : 'text-black/85 hover:text-black font-semibold'
+                        }`
+                      : `text-[13px] tracking-[0.12em] ${
+                          isActive
+                            ? 'text-white font-medium'
+                            : 'text-white/75 hover:text-white font-normal'
+                        }`
                   }`}
                 >
                   <span>{link.label}</span>
                   {isActive && (
                     <motion.div
                       layoutId="navUnderline"
-                      className={`absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-7 h-[2px] rounded-full transition-colors duration-300 ${
+                      className={`absolute -bottom-1 left-1/2 -translate-x-1/2 transition-colors duration-300 ${
                         isOnLightSection
-                          ? 'bg-black'
-                          : 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.9)]'
+                          ? 'w-7 h-[2px] rounded-full bg-black'
+                          : 'w-6 h-[1.5px] rounded-full bg-white'
                       }`}
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
@@ -115,12 +119,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
             })}
           </nav>
 
-          {/* Right Action Icons: Search + Divider + Hamburger Menu (High-visibility) */}
+          {/* Right Action Icons: Search + Divider + Hamburger Menu */}
           <div
             className={`flex items-center gap-4 sm:gap-5 z-20 transition-colors duration-300 ${
-              isOnLightSection
-                ? 'text-black'
-                : 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]'
+              isOnLightSection ? 'text-black' : 'text-white/90'
             }`}
           >
             {/* Search Icon */}
@@ -131,13 +133,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
               }`}
               aria-label="Search site"
             >
-              <Search size={19} strokeWidth={2} />
+              <Search size={19} strokeWidth={isOnLightSection ? 2 : 1.75} />
             </button>
 
             {/* Fine Vertical Hairline Divider */}
             <div
               className={`h-4 w-[1px] hidden sm:block transition-colors duration-300 ${
-                isOnLightSection ? 'bg-black/30' : 'bg-white/40'
+                isOnLightSection ? 'bg-black/30' : 'bg-white/25'
               }`}
             />
 
