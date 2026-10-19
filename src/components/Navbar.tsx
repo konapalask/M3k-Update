@@ -50,24 +50,32 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent ${
           isOnLightSection
-            ? 'bg-[#100f0e] shadow-xl border-b border-white/10 py-3.5 sm:py-4'
-            : 'bg-transparent pt-6 sm:pt-8 pb-4'
+            ? 'pt-5 sm:pt-6 pb-4'
+            : 'pt-6 sm:pt-8 pb-4'
         }`}
       >
         <div className="w-full px-8 sm:px-12 lg:px-16 xl:px-20 flex items-center justify-between relative">
-          {/* Brand Wordmark: M3K INTERIORS (Cinzel Roman Architectural Titling) */}
+          {/* Brand Wordmark: M3K INTERIORS (Adapts to black on white background, white on dark background) */}
           <a href="#hero" className="flex flex-col select-none group z-20">
-            <span className="font-brand tracking-[0.16em] text-xl sm:text-[23px] font-medium uppercase leading-none text-white">
+            <span
+              className={`font-brand tracking-[0.16em] text-xl sm:text-[23px] font-medium uppercase leading-none transition-colors duration-300 ${
+                isOnLightSection ? 'text-[#141414]' : 'text-white'
+              }`}
+            >
               M3K
             </span>
-            <span className="font-sub text-[8px] sm:text-[8.5px] tracking-[0.42em] uppercase mt-1 pl-0.5 font-normal text-[#d4a373]">
+            <span
+              className={`font-sub text-[8px] sm:text-[8.5px] tracking-[0.42em] uppercase mt-1 pl-0.5 font-normal transition-colors duration-300 ${
+                isOnLightSection ? 'text-[#b8864e]' : 'text-[#d4a373]'
+              }`}
+            >
               INTERIORS
             </span>
           </a>
 
-          {/* Exact Dead-Center Navigation Links (Tenor Sans Haute Luxury Navigation) */}
+          {/* Exact Dead-Center Navigation Links (Adapts to black text on white background) */}
           <nav className="hidden md:flex items-center gap-8 lg:gap-11 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10 pointer-events-auto">
             {navLinks.map((link) => {
               const isActive = activeTab === link.label
@@ -76,9 +84,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
                   key={link.label}
                   href={link.href}
                   onClick={() => setActiveTab(link.label)}
-                  className={`relative py-1 text-[13px] tracking-[0.12em] uppercase transition-colors duration-200 font-sub ${
+                  className={`relative py-1 text-[13px] tracking-[0.12em] uppercase transition-colors duration-300 font-sub ${
                     isActive
-                      ? 'text-white font-medium'
+                      ? isOnLightSection
+                        ? 'text-[#141414] font-medium'
+                        : 'text-white font-medium'
+                      : isOnLightSection
+                      ? 'text-black/70 hover:text-black font-normal'
                       : 'text-white/75 hover:text-white font-normal'
                   }`}
                 >
@@ -86,7 +98,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
                   {isActive && (
                     <motion.div
                       layoutId="navUnderline"
-                      className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-6 h-[1.5px] rounded-full bg-white"
+                      className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-6 h-[1.5px] rounded-full transition-colors duration-300 ${
+                        isOnLightSection ? 'bg-[#141414]' : 'bg-white'
+                      }`}
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -95,29 +109,53 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
             })}
           </nav>
 
-          {/* Right Action Icons: Search + Divider + Hamburger Menu */}
-          <div className="flex items-center gap-4 sm:gap-5 z-20 text-white/90">
+          {/* Right Action Icons: Search + Divider + Hamburger Menu (Adapts to black on white background) */}
+          <div
+            className={`flex items-center gap-4 sm:gap-5 z-20 transition-colors duration-300 ${
+              isOnLightSection ? 'text-black/85' : 'text-white/90'
+            }`}
+          >
             {/* Search Icon */}
             <button
               onClick={() => setSearchOpen(!searchOpen)}
-              className="p-1.5 hover:text-white transition-colors cursor-pointer"
+              className={`p-1.5 transition-colors cursor-pointer ${
+                isOnLightSection ? 'hover:text-black' : 'hover:text-white'
+              }`}
               aria-label="Search site"
             >
               <Search size={19} strokeWidth={1.75} />
             </button>
 
             {/* Fine Vertical Hairline Divider */}
-            <div className="h-4 w-[1px] hidden sm:block bg-white/25" />
+            <div
+              className={`h-4 w-[1px] hidden sm:block transition-colors duration-300 ${
+                isOnLightSection ? 'bg-black/20' : 'bg-white/25'
+              }`}
+            />
 
             {/* Hamburger Menu Icon */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-1.5 hover:text-white transition-colors cursor-pointer flex flex-col justify-center items-center gap-1.5 w-7 h-7"
+              className={`p-1.5 transition-colors cursor-pointer flex flex-col justify-center items-center gap-1.5 w-7 h-7 ${
+                isOnLightSection ? 'hover:text-black' : 'hover:text-white'
+              }`}
               aria-label="Open menu"
             >
-              <span className="w-5 h-[1.5px] block bg-white transition-all" />
-              <span className="w-5 h-[1.5px] block bg-white transition-all" />
-              <span className="w-5 h-[1.5px] block bg-white transition-all" />
+              <span
+                className={`w-5 h-[1.5px] block transition-colors duration-300 ${
+                  isOnLightSection ? 'bg-black' : 'bg-white'
+                }`}
+              />
+              <span
+                className={`w-5 h-[1.5px] block transition-colors duration-300 ${
+                  isOnLightSection ? 'bg-black' : 'bg-white'
+                }`}
+              />
+              <span
+                className={`w-5 h-[1.5px] block transition-colors duration-300 ${
+                  isOnLightSection ? 'bg-black' : 'bg-white'
+                }`}
+              />
             </button>
           </div>
         </div>
@@ -135,7 +173,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultatio
                 <input
                   type="text"
                   placeholder="Search residences, styles, spaces..."
-                  className="w-full bg-[#181716] text-white placeholder-white/40 border border-white/20 rounded-full px-5 py-2.5 text-xs focus:outline-none focus:border-[#d4a373] shadow-xl"
+                  className={`w-full rounded-full px-5 py-2.5 text-xs focus:outline-none shadow-xl transition-all ${
+                    isOnLightSection
+                      ? 'bg-white text-black placeholder-black/45 border border-black/20 focus:border-[#b8864e]'
+                      : 'bg-[#181716] text-white placeholder-white/40 border border-white/20 focus:border-[#d4a373]'
+                  }`}
                   autoFocus
                 />
               </div>
