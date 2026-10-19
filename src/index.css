@@ -1,12 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-display: "Plus Jakarta Sans", "Inter", sans-serif;
-  --font-script: "Alex Brush", cursive;
-  --color-accent-amber: #df9f3c;
-  --color-warm-stone: #f4f3ef;
-  --color-surface-dark: #121212;
+  --font-sans: "Outfit", "Tenor Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: "Cormorant Garamond", "Bodoni Moda", Georgia, serif;
+  --font-display: "Cormorant Garamond", "Italiana", serif;
+  --font-brand: "Cinzel", "Cormorant Garamond", serif;
+  --font-editorial: "Italiana", "Cormorant Garamond", serif;
+  --font-sub: "Tenor Sans", "Outfit", sans-serif;
+  --color-accent-gold: #c9a87c;
+  --color-tan: #d4a373;
+  --color-dark-bg: #100f0e;
 }
 
 @layer base {
@@ -17,32 +20,43 @@
   html {
     scroll-behavior: smooth;
     font-family: var(--font-sans);
-    background-color: #121212;
+    background-color: #100f0e;
     color: #f5f5f5;
   }
 }
 
-/* Custom editorial typography utilities */
+.font-serif {
+  font-family: var(--font-serif);
+}
+
 .font-display {
   font-family: var(--font-display);
 }
 
-.font-script {
-  font-family: var(--font-script);
+.font-brand {
+  font-family: var(--font-brand);
 }
 
-/* Custom delicate scrollbars */
+.font-editorial {
+  font-family: var(--font-editorial);
+}
+
+.font-sub {
+  font-family: var(--font-sub);
+}
+
+/* Delicate custom scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #141414;
+  background: #100f0e;
 }
 ::-webkit-scrollbar-thumb {
-  background: #333333;
+  background: #2a2826;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #df9f3c;
+  background: #c9a87c;
 }

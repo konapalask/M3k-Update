@@ -1,110 +1,144 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Star } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
-export const HeroSection: React.FC = () => {
+interface HeroSectionProps {
+  onExploreDesigns?: () => void
+}
+
+export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreDesigns }) => {
+  // Seamless Day to Night transition controller (starts at Night like reference)
+  const [isNight, setIsNight] = useState(true)
+
+  useEffect(() => {
+    // Continuous slow cinematic transition cycle: 4s smooth fade + 4.5s settled dwell
+    const interval = setInterval(() => {
+      setIsNight((prev) => !prev)
+    }, 8500)
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <section
       id="hero"
-      className="relative min-h-screen w-full flex flex-col justify-between overflow-hidden bg-[#121212]"
+      data-theme="dark"
+      className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#100f0e]"
     >
-      {/* Background Architectural Interior Photo */}
-      <div className="absolute inset-0 z-0">
-        <motion.img
-          initial={{ scale: 1.08, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
-          src="/assets/hero_interior_clean.jpg"
-          alt="M3K Interiors Luxury Architectural Living Space"
-          className="w-full h-full object-cover object-center filter brightness-[0.88]"
+      {/* Background Architectural Living Space with Seamless Day/Night Crossfade */}
+      <div className="absolute inset-0 z-0 overflow-hidden select-none pointer-events-none">
+        {/* Layer 01: Daytime Living Room (Sunny natural daylight through floor-to-ceiling windows) */}
+        <img
+          src="/assets/lumiere_day.jpg"
+          alt="M3K Interiors Luxury Living Space - Daylight"
+          className="absolute inset-0 w-full h-full object-cover object-center transform scale-100 will-change-transform"
         />
-        {/* Soft atmospheric gradient vignette to ensure contrast */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/45" />
+
+        {/* Layer 02: Nighttime Living Room (Warm glowing cove lighting, shelf lights, evening ambiance) */}
+        <div
+          className={`absolute inset-0 transition-opacity duration-[4000ms] ease-in-out will-change-[opacity] ${
+            isNight ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          <img
+            src="/assets/lumiere_night.jpg"
+            alt="M3K Interiors Luxury Living Space - Night Ambiance"
+            className="w-full h-full object-cover object-center transform scale-100 will-change-transform"
+          />
+        </div>
+
+        {/* Subtle cinematic gradient to guarantee pristine legibility over central room volume */}
+        <div className="absolute inset-0 bg-radial from-black/45 via-black/25 to-black/65 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/55 pointer-events-none" />
       </div>
 
-      {/* Decorative hairline crossing the hero */}
-      <div className="absolute top-[48%] left-0 right-0 h-[1px] bg-white/15 z-10 pointer-events-none" />
+      {/* Hero Editorial Content Block: Horizontally & Vertically Centered with High-Fashion Interior Serif */}
+      <div className="relative z-20 w-full px-6 sm:px-12 max-w-3xl mx-auto text-center flex flex-col items-center justify-center select-none pt-8 pb-12 sm:pt-10 sm:pb-14">
+        {/* Eyebrow Label: BEAUTIFUL SPACES (Tenor Sans Architectural Tracking) */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-2.5 sm:mb-3"
+        >
+          <span className="font-sub text-[10px] sm:text-[11px] font-normal tracking-[0.4em] uppercase text-[#d4a373] drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+            B E A U T I F U L &nbsp; S P A C E S
+          </span>
+        </motion.div>
 
-      {/* Center Display Headline */}
-      <div className="relative z-20 flex-1 flex flex-col justify-center max-w-7xl mx-auto px-6 sm:px-10 w-full pt-24 sm:pt-28">
-        <div className="relative select-none">
-          {/* "Living" */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="flex items-baseline"
-          >
-            <h1 className="text-white font-display font-medium text-[4.8rem] sm:text-[7.5rem] md:text-[9.5rem] lg:text-[11rem] leading-[0.88] tracking-[-0.04em]">
-              Living
-            </h1>
-          </motion.div>
+        {/* Master Headline: THOUGHTFULLY DESIGNED FOR YOU (All Capital - Compact Editorial Scale) */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-4 sm:mb-5 max-w-2xl sm:max-w-3xl mx-auto"
+        >
+          <h1 className="font-serif font-light text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-[4rem] leading-[1.08] tracking-[0.06em] uppercase text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)]">
+            THOUGHTFULLY<br />
+            <span className="whitespace-nowrap">DESIGNED FOR YOU</span>
+          </h1>
+        </motion.div>
 
-          {/* Cursive Gold Ampersand linking between words */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, rotate: -8 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            transition={{ duration: 1.0, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute left-[38%] sm:left-[35%] md:left-[32%] top-[38%] sm:top-[36%] z-30 pointer-events-none"
-          >
-            <span className="font-script text-[4.5rem] sm:text-[7rem] md:text-[9rem] lg:text-[10.5rem] text-[#df9f3c] drop-shadow-[0_4px_18px_rgba(0,0,0,0.5)]">
-              &amp;
-            </span>
-          </motion.div>
+        {/* Subtitle Description (Outfit Architectural Sans) */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-6 sm:mb-7"
+        >
+          <p className="font-sans text-xs sm:text-sm md:text-[15px] text-white/90 font-light leading-relaxed max-w-lg mx-auto drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]">
+            Transform your space into a story of comfort, elegance and timeless design.
+          </p>
+        </motion.div>
 
-          {/* "Function" */}
-          <motion.div
-            initial={{ opacity: 0, y: 60 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="flex justify-end pr-2 sm:pr-12 md:pr-24 -mt-4 sm:-mt-8 md:-mt-12"
+        {/* CTA Action Button: EXPLORE OUR DESIGNS → (All Capital) */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <a
+            href="#portfolio"
+            onClick={onExploreDesigns}
+            className="px-7 py-3 sm:px-8 sm:py-3.5 bg-[#d4a373] hover:bg-[#c49562] text-[#121110] font-sub font-medium text-xs sm:text-[12.5px] tracking-[0.16em] uppercase rounded-full shadow-xl shadow-black/60 hover:shadow-2xl hover:shadow-[#d4a373]/25 transition-all duration-300 inline-flex items-center gap-2.5 cursor-pointer group active:scale-95"
           >
-            <h2 className="text-white font-display font-medium text-[4.8rem] sm:text-[7.5rem] md:text-[9.5rem] lg:text-[11rem] leading-[0.88] tracking-[-0.04em]">
-              Function
-            </h2>
-          </motion.div>
-        </div>
+            <span>EXPLORE OUR DESIGNS</span>
+            <ArrowRight
+              size={14}
+              className="group-hover:translate-x-1 transition-transform duration-300 text-[#121110]"
+            />
+          </a>
+        </motion.div>
       </div>
 
-      {/* Bottom Architectural Overlay Info Bar */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-20 w-full max-w-7xl mx-auto px-6 sm:px-10 pb-8 sm:pb-12 pt-6"
-      >
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-end border-t border-white/20 pt-6">
-          {/* Left: Award Metric */}
-          <div className="md:col-span-3">
-            <p className="text-white font-semibold text-xs sm:text-sm tracking-[0.2em] uppercase">
-              AWARD-WINNING DESIGN
-            </p>
-            <div className="flex items-center gap-1 mt-1 text-[#df9f3c]">
-              <span className="text-xs text-white/80 mr-1.5 font-light tracking-wider">
-                Excelent
-              </span>
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} size={11} fill="#df9f3c" color="#df9f3c" />
-              ))}
-            </div>
-          </div>
-
-          {/* Center: Curated Editorial Statement */}
-          <div className="md:col-span-7">
-            <p className="text-white/80 text-xs sm:text-sm md:text-base font-light leading-relaxed max-w-2xl">
-              Blends with innovative design and timeless aesthetics to create spaces
-              that are both beautiful and highly functional.
-            </p>
-          </div>
-
-          {/* Right: Year Badge */}
-          <div className="md:col-span-2 text-left md:text-right">
-            <span className="text-white/60 font-mono text-xs sm:text-sm tracking-widest">
-              2025
-            </span>
-          </div>
-        </div>
-      </motion.div>
+      {/* Clean Bottom Centered Scroll Indicator (Tenor Sans Architectural) */}
+      <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 select-none">
+        <a
+          href="#mission"
+          className="flex flex-col items-center gap-1.5 text-white/65 hover:text-white transition-colors cursor-pointer group"
+        >
+          <span className="text-[10px] sm:text-[10.5px] tracking-[0.38em] uppercase font-sub drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
+            SCROLL TO EXPLORE
+          </span>
+          <motion.div
+            animate={{ y: [0, 4, 0] }}
+            transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
+            className="text-[#d4a373] drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]"
+          >
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </motion.div>
+        </a>
+      </div>
     </section>
   )
 }

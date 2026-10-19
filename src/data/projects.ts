@@ -14,7 +14,7 @@ export const projects: Project[] = [
     title: 'Jungle Retreat House',
     category: 'Retreat House',
     area: '312 M²',
-    image: '/assets/project_jungle_retreat.png',
+    image: '/assets/project_jungle_retreat.jpg',
     style: 'contemporary',
     description: 'An expansive open-plan pavilion featuring natural cedar accents, raw limestone walls, and panoramic forest vistas.'
   },
@@ -23,7 +23,7 @@ export const projects: Project[] = [
     title: 'The Urban Haven',
     category: 'Apartment',
     area: '212 M²',
-    image: '/assets/project_urban_haven.png',
+    image: '/assets/project_urban_haven.jpg',
     style: 'scandinavian',
     description: 'A serene sanctuary featuring bespoke arched niches, acoustic textile walls, and sculptural Scandinavian furniture.'
   },
@@ -38,10 +38,10 @@ export const projects: Project[] = [
   },
   {
     id: 'the-executive-suite',
-    title: 'The Urban Haven',
-    category: 'Apartment',
-    area: '212 M²',
-    image: '/assets/project_marble_office.png',
+    title: 'The Executive Suite',
+    category: 'Executive Suite',
+    area: '265 M²',
+    image: '/assets/project_marble_office.jpg',
     style: 'industrial',
     description: 'Veined Italian grey marble slab walls, continuous cove illumination, and architectural stone desks.'
   }

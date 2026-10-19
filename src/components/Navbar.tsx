@@ -1,138 +1,209 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, ArrowUpRight } from 'lucide-react'
+import { Search, X } from 'lucide-react'
 
 interface NavbarProps {
-  onOpenConsultation: () => void
+  onOpenContact?: () => void
+  onOpenConsultation?: () => void
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultation }) => {
-  const [scrolled, setScrolled] = useState(false)
+export const Navbar: React.FC<NavbarProps> = ({ onOpenContact, onOpenConsultation }) => {
+  const [activeTab, setActiveTab] = useState('HOME')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [isOnLightSection, setIsOnLightSection] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 40) {
-        setScrolled(true)
-      } else {
-        setScrolled(false)
+      const sections = document.querySelectorAll<HTMLElement>('[data-theme]')
+      let currentTheme = 'dark'
+
+      // Check which section intersects with the top navbar line (50px from top)
+      for (const section of sections) {
+        const rect = section.getBoundingClientRect()
+        if (rect.top <= 55 && rect.bottom > 55) {
+          currentTheme = section.getAttribute('data-theme') || 'dark'
+          break
+        }
       }
+
+      setIsOnLightSection(currentTheme === 'light')
     }
+
     window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('resize', handleScroll, { passive: true })
+    handleScroll()
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleScroll)
+    }
   }, [])
 
   const navLinks = [
-    { label: 'Home', href: '#hero' },
-    { label: 'About', href: '#mission' },
-    { label: 'Services', href: '#styles' },
-    { label: 'Projects', href: '#gallery' },
-    { label: 'Process', href: '#workflow' },
+    { label: 'HOME', href: '#hero' },
+    { label: 'ABOUT', href: '#mission' },
+    { label: 'SERVICES', href: '#process' },
+    { label: 'PORTFOLIO', href: '#gallery' },
+    { label: 'CONTACT', href: '#contact' },
   ]
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
-          scrolled
-            ? 'bg-[#121212]/85 backdrop-blur-md border-b border-white/10 py-4 shadow-xl'
-            : 'bg-transparent py-6 sm:py-8'
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isOnLightSection
+            ? 'bg-[#100f0e] shadow-xl border-b border-white/10 py-3.5 sm:py-4'
+            : 'bg-transparent pt-6 sm:pt-8 pb-4'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 flex items-center justify-between">
-          {/* Brand Wordmark */}
-          <a
-            href="#hero"
-            className="flex items-center gap-2 group tracking-[0.25em] text-white font-semibold text-lg sm:text-xl uppercase transition-colors"
-          >
-            <span className="font-display">M3K</span>
-            <span className="text-white/40 group-hover:text-[#df9f3c] transition-colors font-light text-xs sm:text-sm tracking-[0.3em]">
+        <div className="w-full px-8 sm:px-12 lg:px-16 xl:px-20 flex items-center justify-between relative">
+          {/* Brand Wordmark: M3K INTERIORS (Cinzel Roman Architectural Titling) */}
+          <a href="#hero" className="flex flex-col select-none group z-20">
+            <span className="font-brand tracking-[0.16em] text-xl sm:text-[23px] font-medium uppercase leading-none text-white">
+              M3K
+            </span>
+            <span className="font-sub text-[8px] sm:text-[8.5px] tracking-[0.42em] uppercase mt-1 pl-0.5 font-normal text-[#d4a373]">
               INTERIORS
             </span>
           </a>
 
-          {/* Desktop Center Navigation Links */}
-          <nav className="hidden md:flex items-center gap-8 lg:gap-10">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-white/80 hover:text-white text-sm font-medium tracking-wide transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-[#df9f3c] hover:after:w-full after:transition-all after:duration-300"
-              >
-                {link.label}
-              </a>
-            ))}
+          {/* Exact Dead-Center Navigation Links (Tenor Sans Haute Luxury Navigation) */}
+          <nav className="hidden md:flex items-center gap-8 lg:gap-11 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10 pointer-events-auto">
+            {navLinks.map((link) => {
+              const isActive = activeTab === link.label
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setActiveTab(link.label)}
+                  className={`relative py-1 text-[13px] tracking-[0.12em] uppercase transition-colors duration-200 font-sub ${
+                    isActive
+                      ? 'text-white font-medium'
+                      : 'text-white/75 hover:text-white font-normal'
+                  }`}
+                >
+                  <span>{link.label}</span>
+                  {isActive && (
+                    <motion.div
+                      layoutId="navUnderline"
+                      className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-6 h-[1.5px] rounded-full bg-white"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </a>
+              )
+            })}
           </nav>
 
-          {/* Right Action Button */}
-          <div className="hidden sm:flex items-center gap-4">
+          {/* Right Action Icons: Search + Divider + Hamburger Menu */}
+          <div className="flex items-center gap-4 sm:gap-5 z-20 text-white/90">
+            {/* Search Icon */}
             <button
-              onClick={onOpenConsultation}
-              className="px-6 py-2.5 rounded-none bg-[#df9f3c] hover:bg-[#c6892e] text-black font-medium text-sm tracking-wide transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-[#df9f3c]/20 flex items-center gap-1.5 active:scale-95 cursor-pointer"
+              onClick={() => setSearchOpen(!searchOpen)}
+              className="p-1.5 hover:text-white transition-colors cursor-pointer"
+              aria-label="Search site"
             >
-              <span>Consultation</span>
+              <Search size={19} strokeWidth={1.75} />
             </button>
-          </div>
 
-          {/* Mobile Menu Toggle */}
-          <div className="flex md:hidden items-center gap-3">
-            <button
-              onClick={onOpenConsultation}
-              className="sm:hidden px-3.5 py-1.5 bg-[#df9f3c] text-black text-xs font-semibold"
-            >
-              Consult
-            </button>
+            {/* Fine Vertical Hairline Divider */}
+            <div className="h-4 w-[1px] hidden sm:block bg-white/25" />
+
+            {/* Hamburger Menu Icon */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-white p-2 hover:text-[#df9f3c] transition-colors"
-              aria-label="Toggle menu"
+              className="p-1.5 hover:text-white transition-colors cursor-pointer flex flex-col justify-center items-center gap-1.5 w-7 h-7"
+              aria-label="Open menu"
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              <span className="w-5 h-[1.5px] block bg-white transition-all" />
+              <span className="w-5 h-[1.5px] block bg-white transition-all" />
+              <span className="w-5 h-[1.5px] block bg-white transition-all" />
             </button>
           </div>
         </div>
+
+        {/* Search Bar Dropdown */}
+        <AnimatePresence>
+          {searchOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="max-w-xl mx-auto px-6 mt-3"
+            >
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search residences, styles, spaces..."
+                  className="w-full bg-[#181716] text-white placeholder-white/40 border border-white/20 rounded-full px-5 py-2.5 text-xs focus:outline-none focus:border-[#d4a373] shadow-xl"
+                  autoFocus
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
-      {/* Mobile Fullscreen Drawer */}
+      {/* Mobile Drawer Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-30 bg-[#121212]/98 backdrop-blur-xl pt-28 px-8 flex flex-col justify-between pb-12 md:hidden"
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed inset-y-0 right-0 z-50 w-full sm:w-96 bg-[#121110] border-l border-white/15 p-8 flex flex-col justify-between shadow-2xl"
           >
-            <nav className="flex flex-col gap-6">
-              {navLinks.map((link, idx) => (
-                <motion.a
-                  key={link.label}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.08 }}
-                  href={link.href}
+            <div>
+              <div className="flex items-center justify-between border-b border-white/10 pb-6 mb-8">
+                <div className="flex flex-col">
+                  <span className="font-serif tracking-[0.28em] text-lg text-white">
+                    M 3 K
+                  </span>
+                  <span className="text-[8px] tracking-[0.4em] text-[#d4a373]">
+                    INTERIORS
+                  </span>
+                </div>
+                <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-2xl font-display font-light text-white/90 hover:text-[#df9f3c] flex items-center justify-between border-b border-white/10 pb-4"
+                  className="p-2 text-white/70 hover:text-white"
+                  aria-label="Close menu"
                 >
-                  <span>{link.label}</span>
-                  <ArrowUpRight size={20} className="text-[#df9f3c]" />
-                </motion.a>
-              ))}
-            </nav>
+                  <X size={22} />
+                </button>
+              </div>
 
-            <div className="pt-6">
+              <nav className="flex flex-col gap-6">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    onClick={() => {
+                      setActiveTab(link.label)
+                      setMobileMenuOpen(false)
+                    }}
+                    className="font-serif text-2xl text-white/90 hover:text-[#c9a87c] transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </nav>
+            </div>
+
+            <div className="border-t border-white/10 pt-6">
               <button
                 onClick={() => {
                   setMobileMenuOpen(false)
-                  onOpenConsultation()
+                  if (onOpenConsultation) {
+                    onOpenConsultation()
+                  } else if (onOpenContact) {
+                    onOpenContact()
+                  }
                 }}
-                className="w-full py-4 bg-[#df9f3c] text-black font-semibold tracking-wider uppercase text-center block text-sm"
+                className="w-full py-3.5 bg-[#d4a373] text-black font-medium text-xs tracking-wider uppercase cursor-pointer hover:bg-[#c59564] transition-colors"
               >
-                Book a Consultation
+                Inquire For Commission
               </button>
-              <div className="mt-8 text-xs text-white/40 tracking-widest text-center">
-                M3K INTERIORS ARCHITECTURAL STUDIO
-              </div>
             </div>
           </motion.div>
         )}

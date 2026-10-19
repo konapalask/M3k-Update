@@ -11,7 +11,7 @@ export const FAQSection: React.FC = () => {
   }
 
   return (
-    <section id="faq" className="bg-[#121212] text-white py-24 sm:py-32">
+    <section id="faq" data-theme="dark" className="bg-[#121212] text-white py-24 sm:py-32">
       <div className="max-w-7xl mx-auto px-6 sm:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left Title */}

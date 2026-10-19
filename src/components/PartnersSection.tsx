@@ -72,7 +72,7 @@ export const PartnersSection: React.FC = () => {
   ]
 
   return (
-    <section className="bg-[#121212] text-white py-12 border-t border-white/10 select-none">
+    <section id="partners" data-theme="dark" className="bg-[#121212] text-white py-12 border-t border-white/10 select-none">
       <div className="max-w-7xl mx-auto px-6 sm:px-10">
         {/* Label */}
         <div className="flex items-center gap-2 mb-8">

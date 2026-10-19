@@ -25,7 +25,7 @@ export const designStyles: DesignStyle[] = [
     id: 'scandinavian',
     name: 'Scandinavian',
     count: 21,
-    image: '/assets/style_scandinavian.png',
+    image: '/assets/style_scandinavian.jpg',
     tagline: 'Uncluttered purity, functional minimalism, and gentle natural radiance.'
   },
   {
